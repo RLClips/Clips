@@ -1,116 +1,287 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>RL Clips</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+        html {
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
-            background: #111;
+            background: #000;
             color: white;
             font-family: Arial, sans-serif;
         }
 
+
+        /* TOP BAR */
+
         header {
             height: 65px;
-            background: #181818;
+
+            background: rgba(15, 15, 15, 0.95);
+
             display: flex;
             align-items: center;
             justify-content: space-between;
+
             padding: 0 20px;
+
             position: fixed;
+
             top: 0;
             left: 0;
             right: 0;
-            z-index: 10;
+
+            z-index: 100;
         }
+
 
         .logo {
             font-size: 24px;
             font-weight: bold;
         }
 
+
         .upload-button {
             background: #00aaff;
+
             color: white;
+
             border: none;
+
             padding: 10px 18px;
+
             border-radius: 8px;
+
             cursor: pointer;
+
             font-size: 15px;
         }
+
 
         .upload-button:hover {
             background: #008dcc;
         }
 
+
+
+        /* FEED */
+
         .feed {
             width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding-top: 85px;
+
+            height: 100vh;
+
+            overflow-y: auto;
+
+            scroll-snap-type: y mandatory;
         }
 
+
+
+        /* EACH CLIP */
+
         .clip {
-            background: #181818;
-            margin-bottom: 25px;
-            border-radius: 12px;
+            width: 100%;
+
+            min-height: 100vh;
+
+            scroll-snap-align: start;
+
+            position: relative;
+
+            background: #000;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
             overflow: hidden;
         }
 
+
+
+        /* VIDEO */
+
         video {
             width: 100%;
-            max-height: 650px;
-            display: block;
+
+            height: 100vh;
+
+            object-fit: contain;
+
             background: black;
         }
 
+
+
+        /* INFO */
+
         .clip-info {
-            padding: 15px;
+            position: absolute;
+
+            left: 20px;
+
+            bottom: 30px;
+
+            max-width: 70%;
+
+            z-index: 5;
+
+            text-shadow:
+                0 2px 5px rgba(0, 0, 0, 0.8);
         }
 
+
         .username {
+            font-size: 18px;
+
             font-weight: bold;
+
             margin-bottom: 8px;
         }
 
+
         .caption {
-            color: #ccc;
-            margin-bottom: 12px;
+            color: #eee;
+
+            font-size: 15px;
+
+            margin-bottom: 15px;
         }
+
+
+
+        /* BUTTONS */
 
         .actions {
             display: flex;
-            gap: 10px;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
         }
 
+
         .action-button {
-            background: #292929;
+            background: rgba(35, 35, 35, 0.85);
+
             border: none;
+
             color: white;
-            padding: 8px 14px;
-            border-radius: 20px;
+
+            padding: 9px 14px;
+
+            border-radius: 25px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+
+        .action-button:hover {
+            background: rgba(70, 70, 70, 0.9);
+        }
+
+
+
+        /* RIGHT SIDE BUTTONS */
+
+        .side-buttons {
+            position: absolute;
+
+            right: 18px;
+
+            bottom: 35px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 12px;
+
+            z-index: 5;
+        }
+
+
+        .side-button {
+            width: 48px;
+
+            height: 48px;
+
+            border-radius: 50%;
+
+            border: none;
+
+            background: rgba(30, 30, 30, 0.8);
+
+            color: white;
+
+            font-size: 19px;
+
             cursor: pointer;
         }
 
-        .action-button:hover {
-            background: #383838;
+
+        .side-button:hover {
+            background: rgba(70, 70, 70, 0.9);
         }
 
-        .empty-message {
-            text-align: center;
-            color: #777;
-            padding: 30px;
+
+
+        /* UPLOADED CLIPS */
+
+        #uploadedClips {
+            width: 100%;
         }
+
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .clip-info {
+                left: 15px;
+
+                bottom: 25px;
+
+                max-width: 75%;
+            }
+
+            .side-buttons {
+                right: 12px;
+
+                bottom: 30px;
+            }
+
+        }
+
     </style>
+
 </head>
 
 
+
 <body>
+
 
 <header>
 
@@ -118,29 +289,44 @@
         RL CLIPS
     </div>
 
-    <button class="upload-button" onclick="uploadClip()">
+
+    <button
+        class="upload-button"
+        onclick="uploadClip()">
+
         + Upload Clip
+
     </button>
 
 </header>
 
 
-<main class="feed">
 
-    <!-- UPLOADED CLIPS WILL APPEAR HERE -->
+<main class="feed" id="feed">
+
+
+    <!-- UPLOADED CLIPS -->
 
     <div id="uploadedClips"></div>
+
 
 
     <!-- TEST CLIP 1 -->
 
     <div class="clip">
 
-        <video controls>
+        <video
+            muted
+            loop
+            playsinline
+            controls>
+
             <source
                 src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-road-1577/1080p.mp4"
                 type="video/mp4">
+
         </video>
+
 
         <div class="clip-info">
 
@@ -148,46 +334,95 @@
                 @RLPlayer
             </div>
 
+
             <div class="caption">
                 Insane Rocket League clip 🔥
             </div>
+
 
             <div class="actions">
 
                 <button
                     class="action-button"
                     onclick="likeClip(this)">
+
                     ❤️ 0
+
                 </button>
+
 
                 <button
                     class="action-button"
                     onclick="commentClip()">
+
                     💬 Comment
+
                 </button>
+
 
                 <button
                     class="action-button"
                     onclick="shareClip()">
+
                     ↗ Share
+
                 </button>
 
             </div>
 
         </div>
 
+
+        <div class="side-buttons">
+
+            <button
+                class="side-button"
+                onclick="likeClip(this)">
+
+                ❤️
+
+            </button>
+
+
+            <button
+                class="side-button"
+                onclick="commentClip()">
+
+                💬
+
+            </button>
+
+
+            <button
+                class="side-button"
+                onclick="shareClip()">
+
+                ↗
+
+            </button>
+
+        </div>
+
     </div>
+
 
 
     <!-- TEST CLIP 2 -->
 
     <div class="clip">
 
-        <video controls>
+        <video
+            muted
+            loop
+            playsinline
+            controls>
+
             <source
                 src="https://cdn.coverr.co/videos/coverr-driving-a-car-1578/1080p.mp4"
                 type="video/mp4">
+
         </video>
+
 
         <div class="clip-info">
 
@@ -195,44 +430,95 @@
                 @OctaneMain
             </div>
 
+
             <div class="caption">
                 BRO WHAT WAS THAT 😭
             </div>
+
 
             <div class="actions">
 
                 <button
                     class="action-button"
                     onclick="likeClip(this)">
+
                     ❤️ 0
+
                 </button>
+
 
                 <button
                     class="action-button"
                     onclick="commentClip()">
+
                     💬 Comment
+
                 </button>
+
 
                 <button
                     class="action-button"
                     onclick="shareClip()">
+
                     ↗ Share
+
                 </button>
 
             </div>
 
         </div>
 
+
+        <div class="side-buttons">
+
+            <button
+                class="side-button"
+                onclick="likeClip(this)">
+
+                ❤️
+
+            </button>
+
+
+            <button
+                class="side-button"
+                onclick="commentClip()">
+
+                💬
+
+            </button>
+
+
+            <button
+                class="side-button"
+                onclick="shareClip()">
+
+                ↗
+
+            </button>
+
+        </div>
+
     </div>
+
 
 </main>
 
 
+
 <script>
+
+
+/* =========================
+   UPLOAD CLIP
+========================= */
+
 
 function uploadClip() {
 
-    const input = document.createElement("input");
+    const input =
+        document.createElement("input");
+
 
     input.type = "file";
 
@@ -241,24 +527,34 @@ function uploadClip() {
 
     input.onchange = function(event) {
 
-        const file = event.target.files[0];
+        const file =
+            event.target.files[0];
+
 
         if (!file) {
             return;
         }
 
 
-        const videoURL = URL.createObjectURL(file);
+        const videoURL =
+            URL.createObjectURL(file);
 
 
-        const clip = document.createElement("div");
+        const clip =
+            document.createElement("div");
+
 
         clip.className = "clip";
 
 
         clip.innerHTML = `
 
-            <video controls autoplay>
+            <video
+                muted
+                loop
+                playsinline
+                controls
+                autoplay>
 
                 <source
                     src="${videoURL}"
@@ -284,70 +580,203 @@ function uploadClip() {
                     <button
                         class="action-button"
                         onclick="likeClip(this)">
+
                         ❤️ 0
+
                     </button>
 
 
                     <button
                         class="action-button"
                         onclick="commentClip()">
+
                         💬 Comment
+
                     </button>
 
 
                     <button
                         class="action-button"
                         onclick="shareClip()">
+
                         ↗ Share
+
                     </button>
 
                 </div>
 
             </div>
+
+
+            <div class="side-buttons">
+
+                <button
+                    class="side-button"
+                    onclick="likeClip(this)">
+
+                    ❤️
+
+                </button>
+
+
+                <button
+                    class="side-button"
+                    onclick="commentClip()">
+
+                    💬
+
+                </button>
+
+
+                <button
+                    class="side-button"
+                    onclick="shareClip()">
+
+                    ↗
+
+                </button>
+
+            </div>
+
         `;
 
 
-        const uploadedClips =
-            document.getElementById("uploadedClips");
+        document
+            .getElementById("uploadedClips")
+            .prepend(clip);
 
-        uploadedClips.prepend(clip);
+
+        setupVideoObserver();
 
     };
-    
+
 
     input.click();
+
 }
 
+
+
+/* =========================
+   LIKES
+========================= */
 
 
 function likeClip(button) {
 
     let number =
         parseInt(
-            button.innerText.replace("❤️ ", "")
+            button.innerText.replace(/[^0-9]/g, "")
         );
+
+
+    if (isNaN(number)) {
+        number = 0;
+    }
+
 
     number++;
 
-    button.innerText =
-        "❤️ " + number;
+
+    if (button.innerText.includes("❤️")) {
+
+        button.innerText =
+            "❤️ " + number;
+
+    }
+
 }
 
+
+
+/* =========================
+   COMMENTS
+========================= */
 
 
 function commentClip() {
 
-    alert("Comments are coming soon!");
+    alert(
+        "Comments are coming soon!"
+    );
 
 }
 
+
+
+/* =========================
+   SHARE
+========================= */
 
 
 function shareClip() {
 
-    alert("Sharing is coming soon!");
+    alert(
+        "Sharing is coming soon!"
+    );
 
 }
+
+
+
+/* =========================
+   AUTO PLAY / PAUSE
+========================= */
+
+
+function setupVideoObserver() {
+
+    const videos =
+        document.querySelectorAll(
+            "video"
+        );
+
+
+    const observer =
+        new IntersectionObserver(
+            function(entries) {
+
+                entries.forEach(function(entry) {
+
+                    const video =
+                        entry.target;
+
+
+                    if (entry.isIntersecting) {
+
+                        video.play()
+                            .catch(function() {});
+
+                    }
+
+                    else {
+
+                        video.pause();
+
+                    }
+
+                });
+
+            },
+
+            {
+                threshold: 0.6
+            }
+
+        );
+
+
+    videos.forEach(function(video) {
+
+        observer.observe(video);
+
+    });
+
+}
+
+
+setupVideoObserver();
+
 
 </script>
 
