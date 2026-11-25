@@ -44,6 +44,10 @@
             font-size: 15px;
         }
 
+        .upload-button:hover {
+            background: #008dcc;
+        }
+
         .feed {
             width: 100%;
             max-width: 600px;
@@ -60,6 +64,7 @@
 
         video {
             width: 100%;
+            max-height: 650px;
             display: block;
             background: black;
         }
@@ -95,8 +100,15 @@
         .action-button:hover {
             background: #383838;
         }
+
+        .empty-message {
+            text-align: center;
+            color: #777;
+            padding: 30px;
+        }
     </style>
 </head>
+
 
 <body>
 
@@ -115,12 +127,19 @@
 
 <main class="feed">
 
-    <!-- CLIP 1 -->
+    <!-- UPLOADED CLIPS WILL APPEAR HERE -->
+
+    <div id="uploadedClips"></div>
+
+
+    <!-- TEST CLIP 1 -->
 
     <div class="clip">
 
         <video controls>
-            <source src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-road-1577/1080p.mp4" type="video/mp4">
+            <source
+                src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-road-1577/1080p.mp4"
+                type="video/mp4">
         </video>
 
         <div class="clip-info">
@@ -135,15 +154,21 @@
 
             <div class="actions">
 
-                <button class="action-button" onclick="likeClip(this)">
+                <button
+                    class="action-button"
+                    onclick="likeClip(this)">
                     ❤️ 0
                 </button>
 
-                <button class="action-button">
+                <button
+                    class="action-button"
+                    onclick="commentClip()">
                     💬 Comment
                 </button>
 
-                <button class="action-button">
+                <button
+                    class="action-button"
+                    onclick="shareClip()">
                     ↗ Share
                 </button>
 
@@ -154,12 +179,14 @@
     </div>
 
 
-    <!-- CLIP 2 -->
+    <!-- TEST CLIP 2 -->
 
     <div class="clip">
 
         <video controls>
-            <source src="https://cdn.coverr.co/videos/coverr-driving-a-car-1578/1080p.mp4" type="video/mp4">
+            <source
+                src="https://cdn.coverr.co/videos/coverr-driving-a-car-1578/1080p.mp4"
+                type="video/mp4">
         </video>
 
         <div class="clip-info">
@@ -174,15 +201,21 @@
 
             <div class="actions">
 
-                <button class="action-button" onclick="likeClip(this)">
+                <button
+                    class="action-button"
+                    onclick="likeClip(this)">
                     ❤️ 0
                 </button>
 
-                <button class="action-button">
+                <button
+                    class="action-button"
+                    onclick="commentClip()">
                     💬 Comment
                 </button>
 
-                <button class="action-button">
+                <button
+                    class="action-button"
+                    onclick="shareClip()">
                     ↗ Share
                 </button>
 
@@ -202,7 +235,9 @@ function uploadClip() {
     const input = document.createElement("input");
 
     input.type = "file";
+
     input.accept = "video/*";
+
 
     input.onchange = function(event) {
 
@@ -212,29 +247,110 @@ function uploadClip() {
             return;
         }
 
+
         const videoURL = URL.createObjectURL(file);
 
-        alert("Clip selected! The real upload system comes next.");
 
-        console.log(videoURL);
+        const clip = document.createElement("div");
+
+        clip.className = "clip";
+
+
+        clip.innerHTML = `
+
+            <video controls autoplay>
+
+                <source
+                    src="${videoURL}"
+                    type="${file.type}">
+
+            </video>
+
+
+            <div class="clip-info">
+
+                <div class="username">
+                    @You
+                </div>
+
+
+                <div class="caption">
+                    My Rocket League clip 🔥
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        class="action-button"
+                        onclick="likeClip(this)">
+                        ❤️ 0
+                    </button>
+
+
+                    <button
+                        class="action-button"
+                        onclick="commentClip()">
+                        💬 Comment
+                    </button>
+
+
+                    <button
+                        class="action-button"
+                        onclick="shareClip()">
+                        ↗ Share
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+
+        const uploadedClips =
+            document.getElementById("uploadedClips");
+
+        uploadedClips.prepend(clip);
+
     };
+    
 
     input.click();
 }
 
 
+
 function likeClip(button) {
 
-    let number = parseInt(
-        button.innerText.replace("❤️ ", "")
-    );
+    let number =
+        parseInt(
+            button.innerText.replace("❤️ ", "")
+        );
 
     number++;
 
-    button.innerText = "❤️ " + number;
+    button.innerText =
+        "❤️ " + number;
+}
+
+
+
+function commentClip() {
+
+    alert("Comments are coming soon!");
+
+}
+
+
+
+function shareClip() {
+
+    alert("Sharing is coming soon!");
+
 }
 
 </script>
+
 
 </body>
 </html>
