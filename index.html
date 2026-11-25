@@ -4,6 +4,10 @@
     <title>RL Clips</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             background: #111;
@@ -12,12 +16,17 @@
         }
 
         header {
-            height: 60px;
+            height: 65px;
             background: #181818;
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10;
         }
 
         .logo {
@@ -25,7 +34,7 @@
             font-weight: bold;
         }
 
-        button {
+        .upload-button {
             background: #00aaff;
             color: white;
             border: none;
@@ -35,20 +44,56 @@
             font-size: 15px;
         }
 
-        main {
+        .feed {
+            width: 100%;
             max-width: 600px;
-            margin: auto;
+            margin: 0 auto;
+            padding-top: 85px;
         }
 
         .clip {
-            height: 500px;
-            background: #222;
-            margin: 20px 0;
+            background: #181818;
+            margin-bottom: 25px;
             border-radius: 12px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            background: black;
+        }
+
+        .clip-info {
+            padding: 15px;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .caption {
+            color: #ccc;
+            margin-bottom: 12px;
+        }
+
+        .actions {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #aaa;
+            gap: 10px;
+        }
+
+        .action-button {
+            background: #292929;
+            border: none;
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .action-button:hover {
+            background: #383838;
         }
     </style>
 </head>
@@ -56,29 +101,119 @@
 <body>
 
 <header>
-    <div class="logo">RL CLIPS</div>
 
-    <button onclick="uploadClip()">
+    <div class="logo">
+        RL CLIPS
+    </div>
+
+    <button class="upload-button" onclick="uploadClip()">
         + Upload Clip
     </button>
+
 </header>
 
-<main>
+
+<main class="feed">
+
+    <!-- CLIP 1 -->
 
     <div class="clip">
-        Your Rocket League clips will appear here
+
+        <video controls>
+            <source src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-road-1577/1080p.mp4" type="video/mp4">
+        </video>
+
+        <div class="clip-info">
+
+            <div class="username">
+                @RLPlayer
+            </div>
+
+            <div class="caption">
+                Insane Rocket League clip 🔥
+            </div>
+
+            <div class="actions">
+
+                <button class="action-button" onclick="likeClip(this)">
+                    ❤️ 0
+                </button>
+
+                <button class="action-button">
+                    💬 Comment
+                </button>
+
+                <button class="action-button">
+                    ↗ Share
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CLIP 2 -->
+
+    <div class="clip">
+
+        <video controls>
+            <source src="https://cdn.coverr.co/videos/coverr-driving-a-car-1578/1080p.mp4" type="video/mp4">
+        </video>
+
+        <div class="clip-info">
+
+            <div class="username">
+                @OctaneMain
+            </div>
+
+            <div class="caption">
+                BRO WHAT WAS THAT 😭
+            </div>
+
+            <div class="actions">
+
+                <button class="action-button" onclick="likeClip(this)">
+                    ❤️ 0
+                </button>
+
+                <button class="action-button">
+                    💬 Comment
+                </button>
+
+                <button class="action-button">
+                    ↗ Share
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
 </main>
 
+
 <script>
 
 function uploadClip() {
-    alert("Upload system coming next!");
+    alert("The real clip uploader is coming next!");
+}
+
+
+function likeClip(button) {
+
+    let number = parseInt(
+        button.innerText.replace("❤️ ", "")
+    );
+
+    number++;
+
+    button.innerText = "❤️ " + number;
 }
 
 </script>
 
 </body>
 </html>
-
