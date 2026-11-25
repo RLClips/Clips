@@ -1,751 +1,1301 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-
-    <title>RL Clips</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            background: #000;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-
-
-        /* TOP BAR */
-
-        header {
-            height: 65px;
-
-            background: rgba(15, 15, 15, 0.95);
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            padding: 0 20px;
-
-            position: fixed;
-
-            top: 0;
-            left: 0;
-            right: 0;
-
-            z-index: 100;
-        }
-
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-
-        .upload-button {
-            background: #00aaff;
-
-            color: white;
-
-            border: none;
-
-            padding: 10px 18px;
-
-            border-radius: 8px;
-
-            cursor: pointer;
-
-            font-size: 15px;
-        }
-
-
-        .upload-button:hover {
-            background: #008dcc;
-        }
-
-
-
-        /* FEED */
-
-        .feed {
-            width: 100%;
-
-            height: 100vh;
-
-            overflow-y: auto;
-
-            scroll-snap-type: y mandatory;
-        }
-
-
-
-        /* EACH CLIP */
-
-        .clip {
-            width: 100%;
-
-            min-height: 100vh;
-
-            scroll-snap-align: start;
-
-            position: relative;
-
-            background: #000;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            overflow: hidden;
-        }
-
-
-
-        /* VIDEO */
-
-        video {
-            width: 100%;
-
-            height: 100vh;
-
-            object-fit: contain;
-
-            background: black;
-        }
-
-
-
-        /* INFO */
-
-        .clip-info {
-            position: absolute;
-
-            left: 20px;
-
-            bottom: 30px;
-
-            max-width: 70%;
-
-            z-index: 5;
-
-            text-shadow:
-                0 2px 5px rgba(0, 0, 0, 0.8);
-        }
-
-
-        .username {
-            font-size: 18px;
-
-            font-weight: bold;
-
-            margin-bottom: 8px;
-        }
-
-
-        .caption {
-            color: #eee;
-
-            font-size: 15px;
-
-            margin-bottom: 15px;
-        }
-
-
-
-        /* BUTTONS */
-
-        .actions {
-            display: flex;
-
-            gap: 8px;
-
-            flex-wrap: wrap;
-        }
-
-
-        .action-button {
-            background: rgba(35, 35, 35, 0.85);
-
-            border: none;
-
-            color: white;
-
-            padding: 9px 14px;
-
-            border-radius: 25px;
-
-            cursor: pointer;
-
-            font-size: 14px;
-        }
-
-
-        .action-button:hover {
-            background: rgba(70, 70, 70, 0.9);
-        }
-
-
-
-        /* RIGHT SIDE BUTTONS */
-
-        .side-buttons {
-            position: absolute;
-
-            right: 18px;
-
-            bottom: 35px;
-
-            display: flex;
-
-            flex-direction: column;
-
-            gap: 12px;
-
-            z-index: 5;
-        }
-
-
-        .side-button {
-            width: 48px;
-
-            height: 48px;
-
-            border-radius: 50%;
-
-            border: none;
-
-            background: rgba(30, 30, 30, 0.8);
-
-            color: white;
-
-            font-size: 19px;
-
-            cursor: pointer;
-        }
-
-
-        .side-button:hover {
-            background: rgba(70, 70, 70, 0.9);
-        }
-
-
-
-        /* UPLOADED CLIPS */
-
-        #uploadedClips {
-            width: 100%;
-        }
-
-
-
-        /* MOBILE */
-
-        @media (max-width: 600px) {
-
-            .logo {
-                font-size: 20px;
-            }
-
-            .clip-info {
-                left: 15px;
-
-                bottom: 25px;
-
-                max-width: 75%;
-            }
-
-            .side-buttons {
-                right: 12px;
-
-                bottom: 30px;
-            }
-
-        }
-
-    </style>
-
-</head>
-
-
-
-<body>
-
-
-<header>
-
-    <div class="logo">
-        RL CLIPS
-    </div>
-
-
-    <button
-        class="upload-button"
-        onclick="uploadClip()">
-
-        + Upload Clip
-
-    </button>
-
-</header>
-
-
-
-<main class="feed" id="feed">
-
-
-    <!-- UPLOADED CLIPS -->
-
-    <div id="uploadedClips"></div>
-
-
-
-    <!-- TEST CLIP 1 -->
-
-    <div class="clip">
-
-        <video
-            muted
-            loop
-            playsinline
-            controls>
-
-            <source
-                src="https://cdn.coverr.co/videos/coverr-a-car-driving-on-a-road-1577/1080p.mp4"
-                type="video/mp4">
-
-        </video>
-
-
-        <div class="clip-info">
-
-            <div class="username">
-                @RLPlayer
-            </div>
-
-
-            <div class="caption">
-                Insane Rocket League clip 🔥
-            </div>
-
-
-            <div class="actions">
-
-                <button
-                    class="action-button"
-                    onclick="likeClip(this)">
-
-                    ❤️ 0
-
-                </button>
-
-
-                <button
-                    class="action-button"
-                    onclick="commentClip()">
-
-                    💬 Comment
-
-                </button>
-
-
-                <button
-                    class="action-button"
-                    onclick="shareClip()">
-
-                    ↗ Share
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="side-buttons">
-
-            <button
-                class="side-button"
-                onclick="likeClip(this)">
-
-                ❤️
-
-            </button>
-
-
-            <button
-                class="side-button"
-                onclick="commentClip()">
-
-                💬
-
-            </button>
-
-
-            <button
-                class="side-button"
-                onclick="shareClip()">
-
-                ↗
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- TEST CLIP 2 -->
-
-    <div class="clip">
-
-        <video
-            muted
-            loop
-            playsinline
-            controls>
-
-            <source
-                src="https://cdn.coverr.co/videos/coverr-driving-a-car-1578/1080p.mp4"
-                type="video/mp4">
-
-        </video>
-
-
-        <div class="clip-info">
-
-            <div class="username">
-                @OctaneMain
-            </div>
-
-
-            <div class="caption">
-                BRO WHAT WAS THAT 😭
-            </div>
-
-
-            <div class="actions">
-
-                <button
-                    class="action-button"
-                    onclick="likeClip(this)">
-
-                    ❤️ 0
-
-                </button>
-
-
-                <button
-                    class="action-button"
-                    onclick="commentClip()">
-
-                    💬 Comment
-
-                </button>
-
-
-                <button
-                    class="action-button"
-                    onclick="shareClip()">
-
-                    ↗ Share
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div class="side-buttons">
-
-            <button
-                class="side-button"
-                onclick="likeClip(this)">
-
-                ❤️
-
-            </button>
-
-
-            <button
-                class="side-button"
-                onclick="commentClip()">
-
-                💬
-
-            </button>
-
-
-            <button
-                class="side-button"
-                onclick="shareClip()">
-
-                ↗
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-</main>
-
-
-
-<script>
-
-
-/* =========================
-   UPLOAD CLIP
-========================= */
-
-
-function uploadClip() {
-
-    const input =
-        document.createElement("input");
-
-
-    input.type = "file";
-
-    input.accept = "video/*";
-
-
-    input.onchange = function(event) {
-
-        const file =
-            event.target.files[0];
-
-
-        if (!file) {
-            return;
-        }
-
-
-        const videoURL =
-            URL.createObjectURL(file);
-
-
-        const clip =
-            document.createElement("div");
-
-
-        clip.className = "clip";
-
-
-        clip.innerHTML = `
-
-            <video
-                muted
-                loop
-                playsinline
-                controls
-                autoplay>
-
-                <source
-                    src="${videoURL}"
-                    type="${file.type}">
-
-            </video>
-
-
-            <div class="clip-info">
-
-                <div class="username">
-                    @You
-                </div>
-
-
-                <div class="caption">
-                    My Rocket League clip 🔥
-                </div>
-
-
-                <div class="actions">
-
-                    <button
-                        class="action-button"
-                        onclick="likeClip(this)">
-
-                        ❤️ 0
-
-                    </button>
-
-
-                    <button
-                        class="action-button"
-                        onclick="commentClip()">
-
-                        💬 Comment
-
-                    </button>
-
-
-                    <button
-                        class="action-button"
-                        onclick="shareClip()">
-
-                        ↗ Share
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="side-buttons">
-
-                <button
-                    class="side-button"
-                    onclick="likeClip(this)">
-
-                    ❤️
-
-                </button>
-
-
-                <button
-                    class="side-button"
-                    onclick="commentClip()">
-
-                    💬
-
-                </button>
-
-
-                <button
-                    class="side-button"
-                    onclick="shareClip()">
-
-                    ↗
-
-                </button>
-
-            </div>
-
-        `;
-
-
-        document
-            .getElementById("uploadedClips")
-            .prepend(clip);
-
-
-        setupVideoObserver();
-
-    };
-
-
-    input.click();
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>RL Clips</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-
-
-/* =========================
-   LIKES
-========================= */
-
-
-function likeClip(button) {
-
-    let number =
-        parseInt(
-            button.innerText.replace(/[^0-9]/g, "")
-        );
-
-
-    if (isNaN(number)) {
-        number = 0;
-    }
-
-
-    number++;
-
-
-    if (button.innerText.includes("❤️")) {
-
-        button.innerText =
-            "❤️ " + number;
-
-    }
-
+body {
+    background: #000;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
+/* =========================
+   MAIN APP
+========================= */
 
+#app {
+    width: 100vw;
+    height: 100vh;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 20px;
+
+    z-index: 100;
+
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,.8),
+        rgba(0,0,0,0)
+    );
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+.logo span {
+    color: #35a7ff;
+}
+
+.account-btn {
+    border: none;
+    background: rgba(255,255,255,.15);
+    color: white;
+    padding: 9px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.account-btn:hover {
+    background: rgba(255,255,255,.25);
+}
+
+/* =========================
+   FEED
+========================= */
+
+#feed {
+    width: 100vw;
+    height: 100vh;
+
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+
+    scrollbar-width: none;
+}
+
+#feed::-webkit-scrollbar {
+    display: none;
+}
+
+.clip {
+    width: 100vw;
+    height: 100vh;
+
+    position: relative;
+
+    scroll-snap-align: start;
+
+    background: #111;
+}
+
+.clip video {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    background: #000;
+}
+
+/* =========================
+   VIDEO INFORMATION
+========================= */
+
+.video-info {
+    position: absolute;
+
+    left: 20px;
+    bottom: 90px;
+
+    width: calc(100% - 120px);
+
+    text-shadow: 0 2px 8px black;
+}
+
+.username {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.caption {
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+/* =========================
+   SIDE BUTTONS
+========================= */
+
+.actions {
+    position: absolute;
+
+    right: 18px;
+    bottom: 100px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    align-items: center;
+}
+
+.action {
+    background: rgba(0,0,0,.35);
+
+    width: 52px;
+    height: 52px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    color: white;
+
+    font-size: 23px;
+
+    cursor: pointer;
+}
+
+.action:hover {
+    background: rgba(255,255,255,.2);
+}
+
+.action-count {
+    font-size: 12px;
+    margin-top: -14px;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.75);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 500;
+}
+
+.modal-box {
+    width: min(420px, 90%);
+
+    background: #181818;
+
+    border-radius: 18px;
+
+    padding: 25px;
+
+    box-shadow: 0 10px 40px rgba(0,0,0,.5);
+}
+
+.modal-box h2 {
+    margin-bottom: 20px;
+}
+
+input,
+textarea {
+    width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 12px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #292929;
+
+    color: white;
+
+    outline: none;
+}
+
+textarea {
+    resize: none;
+}
+
+.primary {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    background: #35a7ff;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.primary:hover {
+    background: #238ddd;
+}
+
+.secondary {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 10px;
+
+    padding: 12px;
+
+    margin-top: 8px;
+
+    background: #333;
+
+    color: white;
+
+    cursor: pointer;
+}
+
+.close {
+    float: right;
+
+    border: none;
+
+    background: none;
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   UPLOAD
+========================= */
+
+#uploadModal .modal-box {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.file {
+    margin: 15px 0;
+}
+
+.warning {
+    background: rgba(255,180,0,.15);
+
+    border: 1px solid rgba(255,180,0,.5);
+
+    padding: 12px;
+
+    border-radius: 10px;
+
+    margin-bottom: 15px;
+
+    font-size: 13px;
+}
 
 /* =========================
    COMMENTS
 ========================= */
 
+.comments {
+    position: fixed;
 
-function commentClip() {
+    right: 0;
+    bottom: 0;
 
-    alert(
-        "Comments are coming soon!"
+    width: min(400px, 100%);
+
+    height: 70%;
+
+    background: #111;
+
+    z-index: 300;
+
+    display: none;
+
+    flex-direction: column;
+
+    border-radius: 20px 0 0 0;
+}
+
+.comments-header {
+    padding: 15px;
+
+    border-bottom: 1px solid #333;
+
+    display: flex;
+
+    justify-content: space-between;
+}
+
+.comment-list {
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 15px;
+}
+
+.comment {
+    margin-bottom: 15px;
+}
+
+.comment-user {
+    font-weight: bold;
+
+    font-size: 14px;
+}
+
+.comment-text {
+    font-size: 14px;
+
+    color: #ddd;
+
+    margin-top: 4px;
+}
+
+.comment-input {
+    padding: 12px;
+
+    border-top: 1px solid #333;
+}
+
+/* =========================
+   NAV
+========================= */
+
+.bottom-nav {
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 60px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 35px;
+
+    align-items: center;
+
+    z-index: 200;
+
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,.8),
+        rgba(0,0,0,0)
     );
+}
+
+.nav-btn {
+    background: none;
+
+    border: none;
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty {
+    height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 30px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+#toast {
+    position: fixed;
+
+    bottom: 80px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(30,30,30,.95);
+
+    padding: 12px 18px;
+
+    border-radius: 20px;
+
+    z-index: 999;
+
+    display: none;
+}
+
+@media(max-width:600px) {
+
+    .video-info {
+        bottom: 85px;
+        left: 14px;
+        width: calc(100% - 90px);
+    }
+
+    .actions {
+        right: 10px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<!-- =========================
+     TOP BAR
+========================= -->
+
+<div class="topbar">
+
+    <div class="logo">
+        RL <span>CLIPS</span>
+    </div>
+
+    <button
+        class="account-btn"
+        onclick="openAccount()"
+        id="accountButton">
+        Login
+    </button>
+
+</div>
+
+
+<!-- =========================
+     VIDEO FEED
+========================= -->
+
+<div id="feed">
+
+    <div class="empty">
+        <div>
+            <h1>RL CLIPS</h1>
+
+            <p style="margin-top:10px;color:#aaa;">
+                Rocket League clips from the community.
+            </p>
+
+            <button
+                class="primary"
+                style="margin-top:20px;width:200px;"
+                onclick="openAccount()">
+                Get Started
+            </button>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     BOTTOM NAV
+========================= -->
+
+<div class="bottom-nav">
+
+    <button
+        class="nav-btn"
+        onclick="scrollTopFeed()">
+        🏠
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="openUpload()">
+        ＋
+    </button>
+
+    <button
+        class="nav-btn"
+        onclick="openAccount()">
+        👤
+    </button>
+
+</div>
+
+
+<!-- =========================
+     LOGIN MODAL
+========================= -->
+
+<div class="modal" id="accountModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeAccount()">×</button>
+
+<h2 id="accountTitle">
+    Login
+</h2>
+
+<input
+    id="email"
+    type="email"
+    placeholder="Email">
+
+<input
+    id="password"
+    type="password"
+    placeholder="Password">
+
+<input
+    id="username"
+    type="text"
+    placeholder="Username"
+    style="display:none;">
+
+<button
+    class="primary"
+    onclick="login()"
+    id="loginButton">
+    Login
+</button>
+
+<button
+    class="secondary"
+    onclick="switchAuth()"
+    id="switchButton">
+    Create an account
+</button>
+
+</div>
+</div>
+
+
+<!-- =========================
+     UPLOAD MODAL
+========================= -->
+
+<div class="modal" id="uploadModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeUpload()">×</button>
+
+<h2>Post an RL Clip</h2>
+
+<div class="warning">
+
+<b>Before posting:</b>
+
+<br><br>
+
+• Video must be 30 seconds or less.<br>
+• Video must actually be Rocket League.<br>
+• No hateful, threatening, or abusive content.<br>
+• Don't post someone else's private information.
+
+</div>
+
+<input
+    id="videoFile"
+    type="file"
+    accept="video/*"
+    class="file">
+
+<textarea
+    id="caption"
+    rows="3"
+    placeholder="Caption..."></textarea>
+
+<button
+    class="primary"
+    onclick="uploadClip()">
+    Post Clip
+</button>
+
+</div>
+</div>
+
+
+<!-- =========================
+     COMMENTS
+========================= -->
+
+<div class="comments" id="commentsPanel">
+
+<div class="comments-header">
+
+<b>Comments</b>
+
+<button
+    onclick="closeComments()"
+    style="background:none;border:none;color:white;font-size:20px;">
+    ×
+</button>
+
+</div>
+
+<div
+    class="comment-list"
+    id="commentList">
+</div>
+
+<div class="comment-input">
+
+<input
+    id="commentInput"
+    placeholder="Add a comment..."
+    onkeydown="commentKey(event)">
+
+</div>
+
+</div>
+
+
+<div id="toast"></div>
+
+</div>
+
+
+<!-- =========================
+     SUPABASE
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+/* =====================================================
+   SUPABASE SETUP
+
+   PUT YOUR SUPABASE INFORMATION HERE.
+===================================================== */
+
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+
+const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+const supabaseClient =
+    supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let currentUser = null;
+
+let currentVideoId = null;
+
+let authMode = "login";
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(message) {
+
+    const box = document.getElementById("toast");
+
+    box.textContent = message;
+
+    box.style.display = "block";
+
+    setTimeout(() => {
+
+        box.style.display = "none";
+
+    }, 2500);
+}
+
+
+/* =====================================================
+   ACCOUNT MODAL
+===================================================== */
+
+function openAccount() {
+
+    document.getElementById("accountModal")
+        .style.display = "flex";
+
+}
+
+function closeAccount() {
+
+    document.getElementById("accountModal")
+        .style.display = "none";
 
 }
 
 
+/* =====================================================
+   SWITCH LOGIN / SIGNUP
+===================================================== */
 
-/* =========================
-   SHARE
-========================= */
+function switchAuth() {
+
+    const username =
+        document.getElementById("username");
+
+    const title =
+        document.getElementById("accountTitle");
+
+    const loginButton =
+        document.getElementById("loginButton");
+
+    const switchButton =
+        document.getElementById("switchButton");
 
 
-function shareClip() {
+    if(authMode === "login") {
 
-    alert(
-        "Sharing is coming soon!"
-    );
+        authMode = "signup";
+
+        title.textContent =
+            "Create Account";
+
+        username.style.display =
+            "block";
+
+        loginButton.textContent =
+            "Create Account";
+
+        switchButton.textContent =
+            "Already have an account? Login";
+
+    }
+
+    else {
+
+        authMode = "login";
+
+        title.textContent =
+            "Login";
+
+        username.style.display =
+            "none";
+
+        loginButton.textContent =
+            "Login";
+
+        switchButton.textContent =
+            "Create an account";
+
+    }
 
 }
 
 
+/* =====================================================
+   LOGIN / SIGNUP
+===================================================== */
 
-/* =========================
-   AUTO PLAY / PAUSE
-========================= */
+async function login() {
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    if(!email || !password) {
+
+        toast("Enter your email and password.");
+
+        return;
+
+    }
 
 
-function setupVideoObserver() {
+    /* SIGN UP */
 
-    const videos =
-        document.querySelectorAll(
-            "video"
+    if(authMode === "signup") {
+
+        const username =
+            document.getElementById("username")
+            .value.trim();
+
+        if(!username) {
+
+            toast("Choose a username.");
+
+            return;
+
+        }
+
+
+        const { data, error } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+
+                    data: {
+                        username: username
+                    }
+
+                }
+
+            });
+
+
+        if(error) {
+
+            toast(error.message);
+
+            return;
+
+        }
+
+
+        toast("Account created!");
+
+        closeAccount();
+
+        return;
+
+    }
+
+
+    /* LOGIN */
+
+    const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+    if(error) {
+
+        toast(error.message);
+
+        return;
+
+    }
+
+
+    currentUser =
+        data.user;
+
+    closeAccount();
+
+    updateAccountButton();
+
+    loadClips();
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout() {
+
+    await supabaseClient.auth.signOut();
+
+    currentUser = null;
+
+    updateAccountButton();
+
+    toast("Logged out.");
+
+}
+
+
+/* =====================================================
+   ACCOUNT BUTTON
+===================================================== */
+
+function updateAccountButton() {
+
+    const button =
+        document.getElementById("accountButton");
+
+
+    if(currentUser) {
+
+        button.textContent =
+            "Logout";
+
+        button.onclick =
+            logout;
+
+    }
+
+    else {
+
+        button.textContent =
+            "Login";
+
+        button.onclick =
+            openAccount;
+
+    }
+
+}
+
+
+/* =====================================================
+   GET USER
+===================================================== */
+
+async function getUser() {
+
+    const { data } =
+        await supabaseClient.auth.getUser();
+
+    currentUser =
+        data.user;
+
+    updateAccountButton();
+
+}
+
+
+/* =====================================================
+   LOAD CLIPS
+===================================================== */
+
+async function loadClips() {
+
+    const feed =
+        document.getElementById("feed");
+
+    feed.innerHTML = "";
+
+    const { data, error } =
+        await supabaseClient
+        .from("videos")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+
+    if(error) {
+
+        console.error(error);
+
+        feed.innerHTML = `
+
+        <div class="empty">
+
+        <div>
+
+        <h2>Couldn't load clips.</h2>
+
+        <p style="color:#aaa;margin-top:10px;">
+        Check your Supabase setup.
+        </p>
+
+        </div>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    if(!data || data.length === 0) {
+
+        feed.innerHTML = `
+
+        <div class="empty">
+
+        <div>
+
+        <h1>No clips yet</h1>
+
+        <p style="color:#aaa;margin-top:10px;">
+        Be the first person to post!
+        </p>
+
+        </div>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    for(const clip of data) {
+
+        createClip(clip);
+
+    }
+
+}
+
+
+/* =====================================================
+   CREATE VIDEO
+===================================================== */
+
+function createClip(clip) {
+
+    const feed =
+        document.getElementById("feed");
+
+
+    const container =
+        document.createElement("div");
+
+    container.className =
+        "clip";
+
+
+    const video =
+        document.createElement("video");
+
+    video.src =
+        clip.video_url;
+
+    video.loop =
+        true;
+
+    video.muted =
+        true;
+
+    video.playsInline =
+        true;
+
+    video.controls =
+        false;
+
+
+    video.onclick = () => {
+
+        if(video.paused) {
+
+            video.play();
+
+        }
+
+        else {
+
+            video.pause();
+
+        }
+
+    };
+
+
+    /* INFO */
+
+    const info =
+        document.createElement("div");
+
+    info.className =
+        "video-info";
+
+
+    const username =
+        document.createElement("div");
+
+    username.className =
+        "username";
+
+    username.textContent =
+        "@" + (clip.username || "player");
+
+
+    const caption =
+        document.createElement("div");
+
+    caption.className =
+        "caption";
+
+    caption.textContent =
+        clip.caption || "";
+
+
+    info.appendChild(username);
+
+    info.appendChild(caption);
+
+
+    /* ACTIONS */
+
+    const actions =
+        document.createElement("div");
+
+    actions.className =
+        "actions";
+
+
+    /* LIKE */
+
+    const likeButton =
+        document.createElement("button");
+
+    likeButton.className =
+        "action";
+
+    likeButton.textContent =
+        "♥";
+
+
+    const likeCount =
+        document.createElement("div");
+
+    likeCount.className =
+        "action-count";
+
+    likeCount.textContent =
+        clip.likes || 0;
+
+
+    likeButton.onclick =
+        () => likeVideo(
+            clip.id,
+            likeButton,
+            likeCount
         );
 
 
+    /* COMMENTS */
+
+    const commentButton =
+        document.createElement("button");
+
+    commentButton.className =
+        "action";
+
+    commentButton.textContent =
+        "💬";
+
+
+    const commentCount =
+        document.createElement("div");
+
+    commentCount.className =
+        "action-count";
+
+    commentCount.textContent =
+        clip.comments_count || 0;
+
+
+    commentButton.onclick =
+        () => openComments(clip.id);
+
+
+    /* REPORT */
+
+    const reportButton =
+        document.createElement("button");
+
+    reportButton.className =
+        "action";
+
+    reportButton.textContent =
+        "⚑";
+
+    reportButton.onclick =
+        () => reportVideo(clip.id);
+
+
+    actions.appendChild(likeButton);
+
+    actions.appendChild(likeCount);
+
+    actions.appendChild(commentButton);
+
+    actions.appendChild(commentCount);
+
+    actions.appendChild(reportButton);
+
+
+    container.appendChild(video);
+
+    container.appendChild(info);
+
+    container.appendChild(actions);
+
+    feed.appendChild(container);
+
+
+    /* autoplay when visible */
+
     const observer =
         new IntersectionObserver(
-            function(entries) {
 
-                entries.forEach(function(entry) {
+            entries => {
 
-                    const video =
-                        entry.target;
+                entries.forEach(entry => {
 
-
-                    if (entry.isIntersecting) {
+                    if(entry.isIntersecting) {
 
                         video.play()
-                            .catch(function() {});
+                            .catch(() => {});
 
                     }
 
@@ -760,26 +1310,689 @@ function setupVideoObserver() {
             },
 
             {
-                threshold: 0.6
+                threshold: 0.7
             }
 
         );
 
 
-    videos.forEach(function(video) {
+    observer.observe(container);
 
-        observer.observe(video);
+}
+
+
+/* =====================================================
+   LIKE VIDEO
+===================================================== */
+
+async function likeVideo(
+    videoId,
+    button,
+    count
+) {
+
+    if(!currentUser) {
+
+        toast("Login to like clips.");
+
+        openAccount();
+
+        return;
+
+    }
+
+
+    const { data: existing } =
+        await supabaseClient
+        .from("likes")
+        .select("*")
+        .eq("video_id", videoId)
+        .eq("user_id", currentUser.id);
+
+
+    if(existing && existing.length > 0) {
+
+        await supabaseClient
+            .from("likes")
+            .delete()
+            .eq("video_id", videoId)
+            .eq("user_id", currentUser.id);
+
+        button.style.color =
+            "white";
+
+    }
+
+    else {
+
+        await supabaseClient
+            .from("likes")
+            .insert({
+
+                video_id:
+                    videoId,
+
+                user_id:
+                    currentUser.id
+
+            });
+
+        button.style.color =
+            "#ff3b5c";
+
+    }
+
+
+    const { count: newCount } =
+        await supabaseClient
+        .from("likes")
+        .select("*", {
+            count: "exact",
+            head: true
+        })
+        .eq("video_id", videoId);
+
+
+    count.textContent =
+        newCount || 0;
+
+}
+
+
+/* =====================================================
+   COMMENTS
+===================================================== */
+
+function openComments(videoId) {
+
+    currentVideoId =
+        videoId;
+
+    document.getElementById("commentsPanel")
+        .style.display =
+        "flex";
+
+    loadComments(videoId);
+
+}
+
+
+function closeComments() {
+
+    document.getElementById("commentsPanel")
+        .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   LOAD COMMENTS
+===================================================== */
+
+async function loadComments(videoId) {
+
+    const list =
+        document.getElementById("commentList");
+
+    list.innerHTML =
+        "Loading comments...";
+
+
+    const { data, error } =
+        await supabaseClient
+        .from("comments")
+        .select("*")
+        .eq("video_id", videoId)
+        .order("created_at", {
+            ascending: true
+        });
+
+
+    if(error) {
+
+        list.innerHTML =
+            "Couldn't load comments.";
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    for(const comment of data) {
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "comment";
+
+
+        const user =
+            document.createElement("div");
+
+        user.className =
+            "comment-user";
+
+        user.textContent =
+            "@" + comment.username;
+
+
+        const text =
+            document.createElement("div");
+
+        text.className =
+            "comment-text";
+
+        text.textContent =
+            comment.text;
+
+
+        div.appendChild(user);
+
+        div.appendChild(text);
+
+        list.appendChild(div);
+
+    }
+
+}
+
+
+/* =====================================================
+   COMMENT FILTER
+===================================================== */
+
+function commentIsAllowed(text) {
+
+    const bannedWords = [
+
+        "idiot",
+        "stupid",
+        "dumb",
+        "loser",
+        "trash",
+        "shut up",
+        "kill yourself",
+        "kys",
+        "moron",
+        "hate you"
+
+    ];
+
+
+    const lower =
+        text.toLowerCase();
+
+
+    for(const word of bannedWords) {
+
+        if(lower.includes(word)) {
+
+            return false;
+
+        }
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =====================================================
+   ADD COMMENT
+===================================================== */
+
+async function addComment() {
+
+    if(!currentUser) {
+
+        toast("Login to comment.");
+
+        openAccount();
+
+        return;
+
+    }
+
+
+    const input =
+        document.getElementById("commentInput");
+
+    const text =
+        input.value.trim();
+
+
+    if(!text) {
+
+        return;
+
+    }
+
+
+    if(!commentIsAllowed(text)) {
+
+        toast("That comment isn't allowed.");
+
+        return;
+
+    }
+
+
+    const username =
+        currentUser.user_metadata
+        ?.username ||
+        "player";
+
+
+    const { error } =
+        await supabaseClient
+        .from("comments")
+        .insert({
+
+            video_id:
+                currentVideoId,
+
+            user_id:
+                currentUser.id,
+
+            username:
+                username,
+
+            text:
+                text
+
+        });
+
+
+    if(error) {
+
+        toast("Couldn't post comment.");
+
+        console.error(error);
+
+        return;
+
+    }
+
+
+    input.value = "";
+
+    loadComments(currentVideoId);
+
+}
+
+
+function commentKey(event) {
+
+    if(event.key === "Enter") {
+
+        addComment();
+
+    }
+
+}
+
+
+/* =====================================================
+   REPORT VIDEO
+===================================================== */
+
+async function reportVideo(videoId) {
+
+    if(!currentUser) {
+
+        toast("Login to report a clip.");
+
+        openAccount();
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            "Report this clip for moderation?"
+        );
+
+
+    if(!confirmed) {
+
+        return;
+
+    }
+
+
+    await supabaseClient
+        .from("reports")
+        .insert({
+
+            video_id:
+                videoId,
+
+            reporter_id:
+                currentUser.id,
+
+            reason:
+                "Community report"
+
+        });
+
+
+    toast("Report sent to moderation.");
+
+}
+
+
+/* =====================================================
+   UPLOAD MODAL
+===================================================== */
+
+function openUpload() {
+
+    if(!currentUser) {
+
+        toast("Login before posting.");
+
+        openAccount();
+
+        return;
+
+    }
+
+
+    document.getElementById("uploadModal")
+        .style.display =
+        "flex";
+
+}
+
+
+function closeUpload() {
+
+    document.getElementById("uploadModal")
+        .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   UPLOAD CLIP
+===================================================== */
+
+async function uploadClip() {
+
+    if(!currentUser) {
+
+        toast("Login first.");
+
+        return;
+
+    }
+
+
+    const file =
+        document.getElementById("videoFile")
+        .files[0];
+
+
+    const caption =
+        document.getElementById("caption")
+        .value.trim();
+
+
+    if(!file) {
+
+        toast("Choose a video.");
+
+        return;
+
+    }
+
+
+    /* FILE TYPE */
+
+    if(!file.type.startsWith("video/")) {
+
+        toast("That isn't a video.");
+
+        return;
+
+    }
+
+
+    /* SIZE */
+
+    if(file.size > 100 * 1024 * 1024) {
+
+        toast("Video is too large.");
+
+        return;
+
+    }
+
+
+    /* DURATION */
+
+    const duration =
+        await getVideoDuration(file);
+
+
+    if(duration > 30) {
+
+        toast("Clips must be 30 seconds or less.");
+
+        return;
+
+    }
+
+
+    toast("Uploading clip...");
+
+
+    const filename =
+        currentUser.id +
+        "_" +
+        Date.now() +
+        "_" +
+        file.name;
+
+
+    const { error: uploadError } =
+        await supabaseClient
+        .storage
+        .from("clips")
+        .upload(filename, file);
+
+
+    if(uploadError) {
+
+        console.error(uploadError);
+
+        toast(
+            "Upload failed. Check your storage setup."
+        );
+
+        return;
+
+    }
+
+
+    const { data: publicData } =
+        supabaseClient
+        .storage
+        .from("clips")
+        .getPublicUrl(filename);
+
+
+    const username =
+        currentUser.user_metadata
+        ?.username ||
+        "player";
+
+
+    const { error } =
+        await supabaseClient
+        .from("videos")
+        .insert({
+
+            user_id:
+                currentUser.id,
+
+            username:
+                username,
+
+            video_url:
+                publicData.publicUrl,
+
+            caption:
+                caption,
+
+            duration:
+                duration,
+
+            likes:
+                0
+
+        });
+
+
+    if(error) {
+
+        console.error(error);
+
+        toast("Couldn't save video.");
+
+        return;
+
+    }
+
+
+    toast("Clip posted!");
+
+    closeUpload();
+
+    document.getElementById("videoFile")
+        .value = "";
+
+    document.getElementById("caption")
+        .value = "";
+
+    loadClips();
+
+}
+
+
+/* =====================================================
+   GET VIDEO DURATION
+===================================================== */
+
+function getVideoDuration(file) {
+
+    return new Promise((resolve, reject) => {
+
+        const video =
+            document.createElement("video");
+
+        video.preload =
+            "metadata";
+
+
+        video.onloadedmetadata =
+            () => {
+
+                URL.revokeObjectURL(
+                    video.src
+                );
+
+                resolve(
+                    video.duration
+                );
+
+            };
+
+
+        video.onerror =
+            () => {
+
+                reject(
+                    "Could not read video."
+                );
+
+            };
+
+
+        video.src =
+            URL.createObjectURL(file);
 
     });
 
 }
 
 
-setupVideoObserver();
+/* =====================================================
+   SCROLL TOP
+===================================================== */
 
+function scrollTopFeed() {
+
+    document.getElementById("feed")
+        .scrollTo({
+
+            top: 0,
+
+            behavior: "smooth"
+
+        });
+
+}
+
+
+/* =====================================================
+   START APP
+===================================================== */
+
+async function startApp() {
+
+    await getUser();
+
+    await loadClips();
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabaseClient.auth
+.onAuthStateChange(
+
+    (event, session) => {
+
+        currentUser =
+            session?.user ||
+            null;
+
+        updateAccountButton();
+
+    }
+
+);
+
+
+/* START */
+
+startApp();
 
 </script>
-
 
 </body>
 </html>
