@@ -198,7 +198,28 @@
 <script>
 
 function uploadClip() {
-    alert("The real clip uploader is coming next!");
+
+    const input = document.createElement("input");
+
+    input.type = "file";
+    input.accept = "video/*";
+
+    input.onchange = function(event) {
+
+        const file = event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const videoURL = URL.createObjectURL(file);
+
+        alert("Clip selected! The real upload system comes next.");
+
+        console.log(videoURL);
+    };
+
+    input.click();
 }
 
 
